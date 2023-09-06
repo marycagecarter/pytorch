@@ -13,12 +13,14 @@ function install_huggingface() {
 
 function install_timm() {
   local commit
-  commit=$(get_pinned_commit timm)
+  version=$(get_pinned_commit timm)
   pip_install pandas==2.0.3
-  pip_install "git+https://github.com/rwightman/pytorch-image-models@${commit}"
+  pip_install "timm==${version}"
+  # Clean up
+  conda_run pip uninstall -y cmake torch torchvision triton
 }
 
 # Pango is needed for weasyprint which is needed for doctr
 conda_install pango
 install_huggingface
-# install_timm
+install_timm
