@@ -261,6 +261,20 @@ class NegateSource(ChainedSource):
         return f"{self.base.name()}.__neg__()"
 
 
+class FromSymBoolSource(ChainedSource):
+    def __post_init__(self):
+        assert self.base is not None
+
+    def reconstruct(self, codegen):
+        return self.base.reconstruct(codegen)
+
+    def guard_source(self):
+        return self.base.guard_source()
+
+    def name(self):
+        return f"{self.base.name()}.__int__()"
+
+
 @dataclasses.dataclass(frozen=True)
 class DefaultsSource(ChainedSource):
     idx_key: Union[int, str]
